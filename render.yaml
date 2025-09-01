@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: peer-calls
+    env: docker
+    plan: free
+    repo: https://github.com/cricstreamz745/peer-calls
+    branch: main
+    dockerfilePath: ./Dockerfile
+    autoDeploy: true
+    envVars:
+      - key: PEERCALLS_BIND_HOST
+        value: 0.0.0.0
+      - key: PEERCALLS_BIND_PORT
+        value: 10000
+      - key: PEERCALLS_NETWORK_TYPE
+        value: sfu
+      - key: PEERCALLS_LOG
+        value: "*"
