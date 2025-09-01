@@ -1,51 +1,24 @@
-FROM node:18.13-alpine as frontend
-
-# Add dependency instructions and fetch node_modules
-COPY package.json package-lock.json /src/
-WORKDIR /src
-
-RUN set -ex \
- && apk add --no-cache \
-      git \
- && npm ci
-
-# Add the application itself
-COPY ./ /src/
-
-RUN set -ex \
- && npm run build
-
-
+# ---- Build Go backend only ----
 FROM golang:1.19.5-alpine as server
 
 ENV CGO_ENABLED=0
 
-RUN set -ex \
- && apk add --no-cache \
-      git
+RUN apk add --no-cache git
 
-# Add dependencies into mod cache
-COPY go.mod go.sum /src/
 WORKDIR /src
 
-RUN set -ex \
- && go mod download
+# Add dependencies
+COPY go.mod go.sum ./
+RUN go mod download
 
-# Add the application itself and build it
-COPY                  ./          /src/
-COPY --from=frontend  /src/build/ /src/build/
+# Add source and build
+COPY . .
+RUN go build -o peer-calls .
 
-ARG VERSION
+# ---- Final image ----
+FROM alpine:3.17
 
-RUN set -ex \
- && go build \
-      -ldflags "-X main.GitDescribe=$(git describe --always --tags --dirty)" \
-      -mod=readonly \
-      -o peer-calls
-
-
-FROM scratch
-
+WORKDIR /app
 COPY --from=server /src/peer-calls /usr/local/bin/
 
 EXPOSE 3000/tcp
