@@ -11,7 +11,7 @@ services:
       - key: PEERCALLS_BIND_HOST
         value: 0.0.0.0
       - key: PEERCALLS_BIND_PORT
-        value: 3000
+        value: ${PORT}
       - key: PEERCALLS_NETWORK_TYPE
         value: sfu
       - key: PEERCALLS_LOG
