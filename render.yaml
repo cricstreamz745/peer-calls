@@ -3,7 +3,7 @@ services:
     name: peer-calls
     env: docker
     plan: free
-    repo: https://github.com/cricstreamz745/peer-calls
+    repo: https://cricstreamz745/cricstreamz745/peer-calls
     branch: master
     dockerfilePath: ./Dockerfile
     autoDeploy: true
