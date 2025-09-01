@@ -21,7 +21,10 @@ FROM alpine:3.17
 WORKDIR /app
 COPY --from=server /src/peer-calls /usr/local/bin/
 
-EXPOSE 3000/tcp
+# Render expects the app to listen on $PORT
+ENV PORT=10000
+
+EXPOSE 10000/tcp
 STOPSIGNAL SIGINT
 
-ENTRYPOINT ["/usr/local/bin/peer-calls"]
+CMD ["/usr/local/bin/peer-calls"]
