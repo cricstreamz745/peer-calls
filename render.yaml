@@ -8,11 +8,7 @@ services:
     dockerfilePath: ./Dockerfile
     autoDeploy: true
     envVars:
-      - key: PEERCALLS_BIND_HOST
-        value: 0.0.0.0
-      - key: PEERCALLS_BIND_PORT
-        value: ${PORT}
-      - key: PEERCALLS_NETWORK_TYPE
-        value: sfu
+      - key: PORT
+        value: 10000
       - key: PEERCALLS_LOG
         value: "*"
